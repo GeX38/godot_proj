@@ -3,9 +3,6 @@
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_ugjnd"]
 [ext_resource type="Texture2D" uid="uid://d0hpfdex2wbl0" path="res://assets/characters/player_spritesheet.png" id="2_t3deu"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ftcie"]
-size = Vector2(13, 17)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_owj8x"]
 atlas = ExtResource("2_t3deu")
 region = Rect2(0, 0, 24, 24)
@@ -73,6 +70,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ytbn"]
+size = Vector2(12, 15)
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_ugjnd")
 
@@ -80,10 +80,6 @@ script = ExtResource("1_ugjnd")
 visible = false
 texture = ExtResource("2_t3deu")
 hframes = 30
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 0.5)
-shape = SubResource("RectangleShape2D_ftcie")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.983724, 1)
@@ -98,3 +94,7 @@ limit_bottom = 250
 position_smoothing_enabled = true
 position_smoothing_speed = 2.0
 editor_draw_limits = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_8ytbn")

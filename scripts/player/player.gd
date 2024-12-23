@@ -5,6 +5,8 @@ const SPEED = 200
 const JUMP_FORCE = -400
 const GRAVITY = 800
 const TILE_ID_SPIKE = 2
+const TILE_ID_DISAPPEARING = 3
+var processed_blocks = []
 
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var tile_map = get_parent()
@@ -43,6 +45,7 @@ func _physics_process(delta):
 		animated_sprite.play("Idle")
 
 	check_for_spikes()
+	check_for_disappearing_blocks()
 
 		
 func check_for_spikes():
@@ -53,3 +56,21 @@ func check_for_spikes():
 	
 	if tile_id == TILE_ID_SPIKE:
 		die()
+
+func check_for_disappearing_blocks():
+	# Получаем координаты игрока в пространстве TileMap
+	var tile_position = tile_map.local_to_map(global_position)
+	tile_position.y += 1
+	# Проверяем, является ли текущий тайл исчезающим
+	var tile_id = tile_map.get_cell_source_id(0, tile_position)
+	if tile_id == TILE_ID_DISAPPEARING:
+		if not processed_blocks.has(tile_position):
+			tile_map.trigger_disappearing_block(Vector2i(tile_position))
+			processed_blocks.append(tile_position)
+			print("down")
+	tile_position.y += -2
+	tile_id = tile_map.get_cell_source_id(0, tile_position)
+	if velocity.y < 0 && tile_id == TILE_ID_DISAPPEARING:
+			tile_map.trigger_disappearing_block(Vector2i(tile_position))
+			processed_blocks.append(tile_position)
+			print("up")
